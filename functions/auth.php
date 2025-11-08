@@ -91,7 +91,7 @@ function isLoggedIn() {
 function authenticateUser($conn, $username, $password) {
     $sql = "SELECT id, username, password, role FROM users WHERE username = ? LIMIT 1";
     $stmt = mysqli_prepare($conn, $sql);
-    if (!$stmt) return false;
+    if (!$stmt) return false;  
     mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);

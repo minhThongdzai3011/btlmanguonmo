@@ -9,7 +9,7 @@ function getAllProducts() {
     $conn = getDbConnection();
 
     // Truy vấn lấy tất cả products
-    $sql = "SELECT id, product_code, product_name, price, quantity FROM products ORDER BY id";
+    $sql = "SELECT id, product_code, product_name, price, quantity, image FROM products ORDER BY id";
     $result = mysqli_query($conn, $sql);
 
     $products = [];
@@ -30,16 +30,17 @@ function getAllProducts() {
  * @param string $product_name Tên sản phẩm
  * @param float $price Giá sản phẩm
  * @param int $quantity Số lượng sản phẩm
+ * @param string $image Đường dẫn hình ảnh sản phẩm
  * @return bool True nếu thành công, False nếu thất bại
  */
-function addProduct($product_code, $product_name, $price, $quantity) {
+function addProduct($product_code, $product_name, $price, $quantity, $image) {
     $conn = getDbConnection();
 
-    $sql = "INSERT INTO products (product_code, product_name, price, quantity) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO products (product_code, product_name, price, quantity, image) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "ssss", $product_code, $product_name, $price, $quantity);
+        mysqli_stmt_bind_param($stmt, "sssss", $product_code, $product_name, $price, $quantity, $image);
         $success = mysqli_stmt_execute($stmt);
 
         mysqli_stmt_close($stmt);
@@ -60,7 +61,7 @@ function addProduct($product_code, $product_name, $price, $quantity) {
 function getProductById($id) {
     $conn = getDbConnection();
 
-    $sql = "SELECT id, product_code, product_name, price, quantity FROM products WHERE id = ? LIMIT 1";
+    $sql = "SELECT id, product_code, product_name, price, quantity, image FROM products WHERE id = ? LIMIT 1";
     $stmt = mysqli_prepare($conn, $sql);
     
     if ($stmt) {
@@ -89,29 +90,32 @@ function getProductById($id) {
  * @param string $product_name Tên product mới
  * @param float $price Giá product mới
  * @param int $quantity Số lượng product mới
+ * @param string $image Đường dẫn hình ảnh sản phẩm mới
  * @return bool True nếu thành công, False nếu thất bại
  */
 
 /**
  * Cập nhật thông tin product
  */
-function updateProduct($id, $product_code, $product_name, $price, $quantity) {
+function updateProduct($id, $product_code, $product_name, $price, $quantity, $image) {
     $conn = getDbConnection();
 
     $sql = "UPDATE products SET 
                 product_code = ?, 
                 product_name = ?, 
                 price = ?, 
-                quantity = ? 
+                quantity = ?,
+                image = ?
             WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "ssssi", 
+        mysqli_stmt_bind_param($stmt, "sssssi", 
             $product_code, 
             $product_name, 
             $price, 
-            $quantity, 
+            $quantity,
+            $image, 
             $id
         );
 

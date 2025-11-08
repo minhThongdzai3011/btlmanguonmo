@@ -74,7 +74,7 @@ $displayName = ucfirst($username);
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
-              <a class="dropdown-item" href="<?= ($current_page === 'main') ? '#' : '../main.php' ?>">
+              <a class="dropdown-item" href="<?= ($current_page === 'menu') ? '#' : '../views/menu.php' ?>">
                 <i class="bi bi-house-door me-2"></i>Dashboard
               </a>
             </li>

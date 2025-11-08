@@ -26,7 +26,7 @@ function handleLogin(): never {
         $_SESSION['success'] = 'Đăng nhập thành công!';
         mysqli_close($conn);
         if ($user['role'] === 'admin') {
-        header('Location: ../views/main.php');
+        header('Location: ../views/menu.php');
         } 
         elseif ($user['role'] === 'user') {
             header('Location: ../views/user.php');
