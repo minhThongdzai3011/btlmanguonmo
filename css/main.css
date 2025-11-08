@@ -1,0 +1,263 @@
+:root{
+  --primary: #0b63d6;
+  --muted: #6b7280;
+  --card-radius: 12px;
+  --soft-shadow: 0 10px 30px rgba(15,23,36,0.06);
+
+  /* Light theme colors */
+  --bg: linear-gradient(180deg,#f7fbff 0%, #f4f6f8 100%);
+  --surface: #ffffff;
+  --text: #0f1724;
+  --muted-text: #6b7280;
+  --muted-bg: rgba(15,23,36,0.03);
+  --link: #0b63d6;
+  --border: rgba(15,23,36,0.06);
+  --card-shadow: 0 10px 30px rgba(15,23,36,0.06);
+}
+
+/* Dark theme overrides */
+body.dark-mode {
+  --bg: linear-gradient(180deg,#071022 0%, #0b1220 100%);
+  --surface: #071826;
+  --text: #e6eef8;
+  --muted-text: #9aa6b7;
+  --muted-bg: rgba(255,255,255,0.02);
+  --link: #7fb7ff;
+  --border: rgba(255,255,255,0.06);
+  --card-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+/* Base */
+body{
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background .25s ease, color .25s ease;
+  padding-top: 0 !important;
+}
+
+/* Container adjustments */
+.container-xxl {
+  position: relative;
+  padding-top: 1rem;
+}
+
+/* Brand logo */
+.brand-logo{
+  width:54px;
+  height:54px;
+  background: linear-gradient(135deg,var(--primary) 0%, #0f86d6 100%);
+  border-radius:10px;
+  color:#fff;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Header styling */
+header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1050 !important;
+  background: var(--surface) !important;
+  padding: 1rem 0;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  margin-bottom: 1.5rem;
+}
+
+/* User dropdown */
+.dropdown-menu {
+  z-index: 1060 !important;
+}
+
+/* Cards */
+.card{
+  border: none;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  background: var(--surface);
+  color: var(--text);
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+/* Ensure headers, small text, muted text adapt */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+}
+.card-title, .h4, .h5, .h6 {
+  color: var(--text);
+}
+.text-muted, .small, .form-label, .card .text-muted {
+  color: var(--muted-text) !important;
+}
+
+/* Links */
+a, a.btn-link {
+  color: var(--link);
+}
+body.dark-mode a, body.dark-mode a.btn-link {
+  color: var(--link);
+}
+
+/* Table styling */
+.table, .table td, .table th {
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+  background: transparent !important;
+}
+
+/* Light mode table */
+.table {
+  background-color: var(--surface) !important;
+}
+.table thead th {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(15,23,36,0.04) !important;
+  border-bottom: 2px solid var(--border) !important;
+  color: var(--text) !important;
+}
+.table tbody td {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* Dark mode table overrides */
+body.dark-mode .table {
+  background-color: var(--surface) !important;
+}
+body.dark-mode .table thead th {
+  background: rgba(255,255,255,0.04) !important;
+  border-bottom: 2px solid var(--border) !important;
+  color: var(--text) !important;
+}
+body.dark-mode .table tbody td {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* Hover effects */
+.table-hover tbody tr:hover td {
+  background: rgba(11,99,214,0.04) !important;
+}
+body.dark-mode .table-hover tbody tr:hover td {
+  background: rgba(255,255,255,0.03) !important;
+}
+.table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+/* Form controls */
+.form-control, .form-select, .form-control:focus, .form-select:focus {
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+body.dark-mode .form-control, body.dark-mode .form-select {
+  background: rgba(255,255,255,0.02);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.form-control::placeholder { color: rgba(0,0,0,0.35); }
+body.dark-mode .form-control::placeholder { color: rgba(255,255,255,0.35); }
+
+/* Buttons */
+.btn, .btn-sm {
+  color: inherit;
+}
+.btn-primary {
+  background: linear-gradient(90deg, var(--primary), #0f86d6);
+  border: none;
+  box-shadow: 0 4px 12px rgba(11,99,214,0.12);
+}
+.btn-outline-secondary {
+  border-color: rgba(15,23,36,0.08);
+  color: var(--text);
+  background: transparent;
+}
+body.dark-mode .btn-outline-secondary {
+  border-color: rgba(255,255,255,0.06);
+  color: var(--text);
+}
+
+/* Badges */
+.badge {
+  color: #fff;
+}
+.badge.bg-success { background-color: #10b981 !important; }
+.badge.bg-warning { background-color: #f59e0b !important; color: #212529 !important; }
+body.dark-mode .badge.bg-warning { color: #212529 !important; }
+
+/* Pagination */
+.pagination .page-link {
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+}
+.pagination .page-item.active .page-link {
+  background: linear-gradient(90deg,var(--primary), #0f86d6);
+  color: #fff;
+  border-color: transparent;
+}
+body.dark-mode .pagination .page-link {
+  border-color: rgba(255,255,255,0.04);
+}
+
+/* Modal adjustments */
+.modal-content {
+  background: var(--surface);
+  color: var(--text);
+  border-radius: calc(var(--card-radius) - 2px);
+  border: 1px solid var(--border);
+}
+body.dark-mode .modal-content { box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
+
+/* Sticky right column */
+.sticky-top .card-body { 
+  padding-bottom: 1rem; 
+}
+
+/* Sticky positioning adjustments */
+.sticky-top {
+  z-index: 998 !important;
+}
+
+/* Ensure proper spacing for sticky elements */
+.container-xxl {
+  position: relative;
+}
+
+/* Override Bootstrap sticky positioning */
+.sticky-top.card {
+  z-index: 998 !important;
+}
+
+/* Table header sticky look on dark */
+.body-dark-header-fix .table thead th { background: rgba(255,255,255,0.04); }
+
+/* Footer */
+footer, .site-footer {
+  color: var(--muted-text);
+}
+
+/* Misc small elements */
+.badge, .btn .bi, .display-6, .fw-semibold { color: inherit; }
+.card .text-muted { color: var(--muted-text); }
+
+/* Adjust outline for focus in dark mode for accessibility */
+:focus {
+  outline: 3px solid rgba(11,99,214,0.15);
+  outline-offset: 2px;
+}
+body.dark-mode :focus {
+  outline: 3px solid rgba(127,183,255,0.18);
+}
+
+/* Responsive tweaks */
+@media (max-width: 991.98px){
+  .brand-logo{width:44px;height:44px;border-radius:8px}
+}
+
+/* final layering */
+body { background: var(--bg); }
