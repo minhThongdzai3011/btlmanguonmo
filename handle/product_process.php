@@ -48,8 +48,14 @@ function handleCreateProduct() {
 
     $product_code = trim($_POST['product_code']);
     $product_name = trim($_POST['product_name']);
-    $price = trim($_POST['price']);
-    $quantity = trim($_POST['quantity']);
+    $price_economy = trim($_POST['price_economy']);
+    $price_vip = trim($_POST['price_vip']);
+    $price_business = trim($_POST['price_business']);
+    $quantity_economy = trim($_POST['quantity_economy']);
+    $quantity_vip = trim($_POST['quantity_vip']);
+    $quantity_business = trim($_POST['quantity_business']);
+    $captain_code = trim($_POST['captain_code']);
+    $steward_code = trim($_POST['steward_code']);
     
     // Xử lý hình ảnh
     $image = '';
@@ -99,13 +105,13 @@ function handleCreateProduct() {
     }
 
     // Validate dữ liệu
-    if (empty($product_code) || empty($product_name) || empty($price) || empty($quantity)) {
+    if (empty($product_code) || empty($product_name) || empty($price_economy) || empty($price_vip) || empty($price_business)) {
         header("Location: ../views/product/create_product.php?error=Vui lòng điền đầy đủ thông tin");
         exit();
     }
 
     // Gọi hàm thêm sản phẩm
-    $result = addProduct($product_code, $product_name, $price, $quantity, $image);
+    $result = addProduct($product_code, $product_name, $price_economy, $price_vip, $price_business, $quantity_economy, $quantity_vip, $quantity_business, $captain_code, $steward_code, $image);
     
     if ($result) {
         header("Location: ../views/product/index.php?success=Thêm sản phẩm thành công");
@@ -132,8 +138,14 @@ function handleEditProduct() {
     $id = $_POST['id'];
     $product_code = trim($_POST['product_code']);
     $product_name = trim($_POST['product_name']);
-    $price = trim($_POST['price']);
-    $quantity = trim($_POST['quantity']);
+    $price_economy = trim($_POST['price_economy']);
+    $price_vip = trim($_POST['price_vip']);
+    $price_business = trim($_POST['price_business']);
+    $quantity_economy = trim($_POST['quantity_economy']);
+    $quantity_vip = trim($_POST['quantity_vip']);
+    $quantity_business = trim($_POST['quantity_business']);
+    $captain_code = trim($_POST['captain_code']);
+    $steward_code = trim($_POST['steward_code']);
     $image = trim($_POST['image']); // Current image path
     
     // Kiểm tra nếu có upload ảnh mới
@@ -186,13 +198,13 @@ function handleEditProduct() {
     }
 
     // Validate dữ liệu
-    if (empty($product_code) || empty($product_name) || empty($price) || empty($quantity) || empty($image)) {
+    if (empty($product_code) || empty($product_name) || empty($price_economy) || empty($price_vip) || empty($price_business) || empty($image)) {
         header("Location: ../views/product/edit_product.php?id=" . $id . "&error=Vui lòng điền đầy đủ thông tin");
         exit();
     }
 
     // Gọi function để cập nhật sản phẩm
-    $result = updateProduct($id, $product_code, $product_name, $price, $quantity, $image);
+    $result = updateProduct($id, $product_code, $product_name, $price_economy, $price_vip, $price_business, $quantity_economy, $quantity_vip, $quantity_business, $captain_code, $steward_code, $image);
     
     if ($result) {
         header("Location: ../views/product/index.php?success=Cập nhật sản phẩm thành công");

@@ -21,6 +21,24 @@ $outOfStockProducts = 0;
 $totalTickets = 0;
 $totalValue = 0;
 
+foreach ($products as $product) {
+    $totalQuantity = $product['quantity_economy'] + $product['quantity_vip'] + $product['quantity_business'];
+    $productValue = ($product['price_economy'] * $product['quantity_economy']) + 
+                    ($product['price_vip'] * $product['quantity_vip']) + 
+                    ($product['price_business'] * $product['quantity_business']);
+    
+    $totalTickets += $totalQuantity;
+    $totalValue += $productValue;
+    
+    if ($totalQuantity > 30) {
+        $availableProducts++;
+    } elseif ($totalQuantity > 0) {
+        $lowStockProducts++;
+    } else {
+        $outOfStockProducts++;
+    }
+}
+
 // Page header settings
 $show_page_title = true;
 $page_subtitle = 'Danh sách và quản lý vé máy bay các tuyến đường';
@@ -89,11 +107,11 @@ include '../../includes/header.php';
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
           <div>
-            <div class="stats-value"><?php echo number_format($totalValue, 0, ',', '.'); ?> VNĐ</div>
-            <div class="stats-label">Tổng giá trị</div>
+            <div class="stats-value"><?php echo number_format($totalTickets); ?></div>
+            <div class="stats-label">Tổng số vé</div>
           </div>
           <div class="stats-icon">
-            <i class="bi bi-currency-dollar"></i>
+            <i class="bi bi-ticket-perforated"></i>
           </div>
         </div>
       </div>
@@ -202,9 +220,11 @@ include '../../includes/header.php';
                              loading="lazy">
                       </a>
                       
-                      <!-- Status Badge -->
-                      <div class="status-badge status-<?php echo ($product['quantity'] > 0) ? 'available' : 'out_of_stock'; ?>">
-                        <?php if ($product['quantity'] > 0): ?>
+                      <?php 
+                      $totalQuantity = $product['quantity_economy'] + $product['quantity_vip'] + $product['quantity_business'];
+                      ?>
+                      <div class="status-badge status-<?php echo ($totalQuantity > 0) ? 'available' : 'out_of_stock'; ?>">
+                        <?php if ($totalQuantity > 0): ?>
                           <i class="bi bi-check-circle-fill"></i>
                         <?php else: ?>
                           <i class="bi bi-x-circle-fill"></i>
@@ -237,15 +257,51 @@ include '../../includes/header.php';
                         </div>
                       </div>
                       
-                      <h6 class="product-name mb-2"><?php echo htmlspecialchars($product['product_name']); ?></h6>
+                      <h6 class="product-name mb-3"><?php echo htmlspecialchars($product['product_name']); ?></h6>
                       
-                      <div class="price-section mb-2">
-                        <div class="price-current"><?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ</div>
+                      <!-- Captain and Steward Info -->
+                      <div class="mb-3">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                          <i class="bi bi-airplane-engines text-primary" style="font-size: 1.1rem;"></i>
+                          <div class="flex-grow-1">
+                            <small class="text-muted d-block" style="font-size: 0.7rem;">Cơ trưởng</small>
+                            <strong style="font-size: 0.85rem;"><?php echo htmlspecialchars($product['captain_name'] ?? 'Chưa có'); ?></strong>
+                          </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                          <i class="bi bi-person-badge text-danger" style="font-size: 1.1rem;"></i>
+                          <div class="flex-grow-1">
+                            <small class="text-muted d-block" style="font-size: 0.7rem;">Tiếp viên</small>
+                            <strong style="font-size: 0.85rem;"><?php echo htmlspecialchars($product['steward_name'] ?? 'Chưa có'); ?></strong>
+                          </div>
+                        </div>
                       </div>
                       
-                      <div class="quantity-info mb-3">
-                        <i class="bi bi-ticket-perforated me-1"></i>
-                        <span class="quantity-text">Còn lại: <strong><?php echo $product['quantity']; ?></strong> vé</span>
+                      <div class="price-section mb-2">
+                        <div class="text-muted small mb-1">Giá vé:</div>
+                        <div class="d-flex justify-content-between gap-2" style="font-size: 0.8rem;">
+                          <div class="text-center flex-fill">
+                            <small class="text-muted d-block">Phổ thông</small>
+                            <strong class="text-success"><?php echo number_format($product['price_economy'], 0, ',', '.'); ?></strong>
+                          </div>
+                          <div class="text-center flex-fill">
+                            <small class="text-muted d-block">VIP</small>
+                            <strong class="text-warning"><?php echo number_format($product['price_vip'], 0, ',', '.'); ?></strong>
+                          </div>
+                          <div class="text-center flex-fill">
+                            <small class="text-muted d-block">Business</small>
+                            <strong class="text-primary"><?php echo number_format($product['price_business'], 0, ',', '.'); ?></strong>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="quantity-info border-top pt-2 mt-2">
+                        <div class="text-muted small mb-1">Số lượng:</div>
+                        <div class="d-flex justify-content-between gap-1 mt-1" style="font-size: 0.7rem;">
+                          <span class="text-muted">PT: <?php echo $product['quantity_economy']; ?></span>
+                          <span class="text-muted">VIP: <?php echo $product['quantity_vip']; ?></span>
+                          <span class="text-muted">BS: <?php echo $product['quantity_business']; ?></span>
+                        </div>
                       </div>
                     </div>
                   </div>

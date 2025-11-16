@@ -38,7 +38,7 @@ $displayName = ucfirst($username);
         </div>
         <div>
           <h1 class="h5 mb-0">
-            <a href="<?= ($current_page === 'main') ? '#' : '../main.php' ?>" class="text-decoration-none text-inherit">
+            <a href="<?= ($current_page === 'menu') ? '#' : '../menu.php' ?>" class="text-decoration-none text-inherit">
               AirAgent Admin
             </a>
           </h1>

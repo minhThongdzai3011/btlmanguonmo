@@ -18,7 +18,12 @@ if ($product_id <= 0) {
 
 // Lấy thông tin sản phẩm
 require_once '../../handle/product_process.php';
+require_once '../../functions/captain_function.php';
+require_once '../../functions/steward_funtion.php';
+
 $product = handleGetProductById($product_id);
+$captains = getAllCaptains();
+$stewards = getAllStewards();
 
 if (!$product) {
     header("Location: index.php?error=Không tìm thấy sản phẩm");
@@ -92,24 +97,93 @@ include '../../includes/header.php';
             <div class="invalid-feedback">Vui lòng nhập tên sản phẩm</div>
           </div>
 
-          <!-- Price -->
+          <!-- Prices for 3 ticket types -->
           <div class="mb-3">
-            <label for="price" class="form-label">
-              Giá (VNĐ) <span class="text-danger">*</span>
+            <label class="form-label">
+              Giá vé (VNĐ) <span class="text-danger">*</span>
             </label>
-            <input type="number" class="form-control" id="price" name="price" 
-                   value="<?php echo $product['price']; ?>" min="0" required>
-            <div class="invalid-feedback">Vui lòng nhập giá sản phẩm</div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="price_economy" class="form-label small">Phổ thông</label>
+                <input type="number" class="form-control" id="price_economy" name="price_economy" 
+                       value="<?php echo $product['price_economy']; ?>" min="0" required>
+                <div class="invalid-feedback">Vui lòng nhập giá</div>
+              </div>
+              <div class="col-md-4">
+                <label for="price_vip" class="form-label small">VIP</label>
+                <input type="number" class="form-control" id="price_vip" name="price_vip" 
+                       value="<?php echo $product['price_vip']; ?>" min="0" required>
+                <div class="invalid-feedback">Vui lòng nhập giá</div>
+              </div>
+              <div class="col-md-4">
+                <label for="price_business" class="form-label small">Thương gia</label>
+                <input type="number" class="form-control" id="price_business" name="price_business" 
+                       value="<?php echo $product['price_business']; ?>" min="0" required>
+                <div class="invalid-feedback">Vui lòng nhập giá</div>
+              </div>
+            </div>
           </div>
 
           <!-- Quantity -->
           <div class="mb-3">
-            <label for="quantity" class="form-label">
-              Số lượng <span class="text-danger">*</span>
+            <label class="form-label">
+              Số lượng vé <span class="text-danger">*</span>
             </label>
-            <input type="number" class="form-control" id="quantity" name="quantity" 
-                   value="<?php echo $product['quantity']; ?>" min="0" required>
-            <div class="invalid-feedback">Vui lòng nhập số lượng</div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="quantity_economy" class="form-label small">Phổ thông</label>
+                <input type="number" class="form-control" id="quantity_economy" name="quantity_economy" 
+                       value="<?php echo $product['quantity_economy']; ?>" min="0" required>
+                <div class="invalid-feedback">Vui lòng nhập số lượng</div>
+              </div>
+              <div class="col-md-4">
+                <label for="quantity_vip" class="form-label small">VIP</label>
+                <input type="number" class="form-control" id="quantity_vip" name="quantity_vip" 
+                       value="<?php echo $product['quantity_vip']; ?>" min="0" required>
+                <div class="invalid-feedback">Vui lòng nhập số lượng</div>
+              </div>
+              <div class="col-md-4">
+                <label for="quantity_business" class="form-label small">Thương gia</label>
+                <input type="number" class="form-control" id="quantity_business" name="quantity_business" 
+                       value="<?php echo $product['quantity_business']; ?>" min="0" required>
+                <div class="invalid-feedback">Vui lòng nhập số lượng</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Captain and Steward Selection -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="captain_code" class="form-label">
+                Cơ trưởng <span class="text-danger">*</span>
+              </label>
+              <select class="form-select" id="captain_code" name="captain_code" required>
+                <option value="">-- Chọn cơ trưởng --</option>
+                <?php foreach ($captains as $captain): ?>
+                  <option value="<?php echo htmlspecialchars($captain['captain_code']); ?>"
+                          <?php echo ($captain['captain_code'] == $product['captain_code']) ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($captain['captain_code'] . ' - ' . $captain['captain_name']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+              <div class="invalid-feedback">Vui lòng chọn cơ trưởng</div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="steward_code" class="form-label">
+                Tiếp viên <span class="text-danger">*</span>
+              </label>
+              <select class="form-select" id="steward_code" name="steward_code" required>
+                <option value="">-- Chọn tiếp viên --</option>
+                <?php foreach ($stewards as $steward): ?>
+                  <option value="<?php echo htmlspecialchars($steward['steward_code']); ?>"
+                          <?php echo ($steward['steward_code'] == $product['steward_code']) ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($steward['steward_code'] . ' - ' . $steward['steward_name']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+              <div class="invalid-feedback">Vui lòng chọn tiếp viên</div>
+            </div>
           </div>
 
           <!-- Current Image -->

@@ -12,10 +12,14 @@ $role = 'Administrator';
 require_once '../functions/product.function.php';
 require_once '../functions/agent_functions.php';
 require_once '../functions/employee_function.php';
+require_once '../functions/captain_function.php';
+require_once '../functions/steward_funtion.php';
 
 $products = getAllProducts();
 $agents = getAllAgents();
 $employees = getAllEmployees();
+$captains = getAllCaptains();
+$stewards = getAllStewards();
 
 // Tính toán thống kê
 $totalProducts = count($products);
@@ -25,7 +29,9 @@ $totalEmployees = count($employees);
 // Tính tổng giá trị vé
 $totalProductValue = 0;
 foreach ($products as $product) {
-    $totalProductValue += $product['price'] * $product['quantity'];
+    $totalProductValue += ($product['price_economy'] * $product['quantity_economy']) + 
+                          ($product['price_vip'] * $product['quantity_vip']) + 
+                          ($product['price_business'] * $product['quantity_business']);
 }
 
 // Tính tổng doanh thu đại lý
@@ -40,6 +46,30 @@ foreach ($employees as $employee) {
     $totalEmployeeSalary += floatval($employee['salary']);
 }
 
+// Tính toán captain statistics
+$totalCaptains = count($captains);
+$captainMaleCount = 0;
+$captainFemaleCount = 0;
+foreach ($captains as $captain) {
+    if ($captain['gender'] === 'Nam') {
+        $captainMaleCount++;
+    } else {
+        $captainFemaleCount++;
+    }
+}
+
+// Tính toán steward statistics
+$totalStewards = count($stewards);
+$stewardMaleCount = 0;
+$stewardFemaleCount = 0;
+foreach ($stewards as $steward) {
+    if ($steward['gender'] === 'Nam') {
+        $stewardMaleCount++;
+    } else {
+        $stewardFemaleCount++;
+    }
+}
+
 // Page header settings
 $show_page_title = true;
 $page_subtitle = 'Xem tổng quan thống kê và quản lý hệ thống';
@@ -51,7 +81,7 @@ include '../includes/header.php';
 <!-- Statistics Cards -->
 <div class="row g-4 mb-4">
     <!-- Products Card -->
-    <div class="col-xl-3 col-lg-6 col-md-6">
+    <div class="col-xl-2 col-lg-4 col-md-6">
         <div class="stats-card stats-card-primary">
             <div class="stats-icon">
                 <i class="bi bi-ticket-perforated"></i>
@@ -70,7 +100,7 @@ include '../includes/header.php';
     </div>
 
     <!-- Agents Card -->
-    <div class="col-xl-3 col-lg-6 col-md-6">
+    <div class="col-xl-2 col-lg-4 col-md-6">
         <div class="stats-card stats-card-success">
             <div class="stats-icon">
                 <i class="bi bi-building"></i>
@@ -89,7 +119,7 @@ include '../includes/header.php';
     </div>
 
     <!-- Employees Card -->
-    <div class="col-xl-3 col-lg-6 col-md-6">
+    <div class="col-xl-2 col-lg-4 col-md-6">
         <div class="stats-card stats-card-warning">
             <div class="stats-icon">
                 <i class="bi bi-people"></i>
@@ -107,9 +137,45 @@ include '../includes/header.php';
         </div>
     </div>
 
+    <!-- Captains Card -->
+    <div class="col-xl-2 col-lg-4 col-md-6">
+        <div class="stats-card stats-card-info" style="cursor: pointer;" onclick="window.location.href='captain/index.php'">
+            <div class="stats-icon">
+                <i class="bi bi-airplane-engines"></i>
+            </div>
+            <div class="stats-content">
+                <h3 class="stats-number" data-target="<?php echo $totalCaptains; ?>">0</h3>
+                <p class="stats-label">Cơ trưởng</p>
+                <div class="stats-footer">
+                    <span class="stats-text">
+                        <?php echo $captainMaleCount; ?> Nam / <?php echo $captainFemaleCount; ?> Nữ
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stewards Card -->
+    <div class="col-xl-2 col-lg-4 col-md-6">
+        <div class="stats-card stats-card-danger" style="cursor: pointer;" onclick="window.location.href='steward/index.php'">
+            <div class="stats-icon">
+                <i class="bi bi-person-badge"></i>
+            </div>
+            <div class="stats-content">
+                <h3 class="stats-number" data-target="<?php echo $totalStewards; ?>">0</h3>
+                <p class="stats-label">Tiếp viên</p>
+                <div class="stats-footer">
+                    <span class="stats-text">
+                        <?php echo $stewardMaleCount; ?> Nam / <?php echo $stewardFemaleCount; ?> Nữ
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Revenue Card -->
-    <div class="col-xl-3 col-lg-6 col-md-6">
-        <div class="stats-card stats-card-info">
+    <div class="col-xl-2 col-lg-4 col-md-6">
+        <div class="stats-card stats-card-secondary">
             <div class="stats-icon">
                 <i class="bi bi-graph-up-arrow"></i>
             </div>
@@ -213,6 +279,18 @@ include '../includes/header.php';
                             <i class="bi bi-people me-2"></i>Nhân viên
                         </button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="captains-tab" data-bs-toggle="tab" 
+                                data-bs-target="#captains" type="button" role="tab">
+                            <i class="bi bi-airplane-engines me-2"></i>Cơ trưởng
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="stewards-tab" data-bs-toggle="tab" 
+                                data-bs-target="#stewards" type="button" role="tab">
+                            <i class="bi bi-person-badge me-2"></i>Tiếp viên
+                        </button>
+                    </li>
                 </ul>
             </div>
             <div class="card-body">
@@ -237,7 +315,11 @@ include '../includes/header.php';
                                         <th>Mã vé</th>
                                         <th>Tên sản phẩm</th>
                                         <th>Hình ảnh</th>
-                                        <th>Giá</th>
+                                        <th>Cơ trưởng</th>
+                                        <th>Tiếp viên</th>
+                                        <th>Giá PT</th>
+                                        <th>Giá VIP</th>
+                                        <th>Giá BS</th>
                                         <th>Số lượng</th>
                                         <th>Tổng giá trị</th>
                                         <th>Trạng thái</th>
@@ -247,7 +329,7 @@ include '../includes/header.php';
                                 <tbody>
                                     <?php if (empty($products)): ?>
                                         <tr>
-                                            <td colspan="9" class="text-center py-4">
+                                            <td colspan="13" class="text-center py-4">
                                                 <i class="bi bi-inbox display-4 text-muted"></i>
                                                 <p class="text-muted mt-2">Chưa có vé nào</p>
                                             </td>
@@ -266,21 +348,44 @@ include '../includes/header.php';
                                                         <span class="text-muted">Không có ảnh</span>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td><?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ</td>
                                                 <td>
-                                                    <span class="badge bg-secondary">
-                                                        <?php echo number_format($product['quantity']); ?>
-                                                    </span>
+                                                    <small class="text-muted d-block"><?php echo htmlspecialchars($product['captain_code'] ?? 'N/A'); ?></small>
+                                                    <strong><?php echo htmlspecialchars($product['captain_name'] ?? 'Chưa có'); ?></strong>
+                                                </td>
+                                                <td>
+                                                    <small class="text-muted d-block"><?php echo htmlspecialchars($product['steward_code'] ?? 'N/A'); ?></small>
+                                                    <strong><?php echo htmlspecialchars($product['steward_name'] ?? 'Chưa có'); ?></strong>
+                                                </td>
+                                                <td><?php echo number_format($product['price_economy'], 0, ',', '.'); ?></td>
+                                                <td><?php echo number_format($product['price_vip'], 0, ',', '.'); ?></td>
+                                                <td><?php echo number_format($product['price_business'], 0, ',', '.'); ?></td>
+                                                <td>
+                                                    <?php 
+                                                    $totalQuantity = $product['quantity_economy'] + $product['quantity_vip'] + $product['quantity_business'];
+                                                    $totalValue = ($product['price_economy'] * $product['quantity_economy']) + 
+                                                                  ($product['price_vip'] * $product['quantity_vip']) + 
+                                                                  ($product['price_business'] * $product['quantity_business']);
+                                                    ?>
+                                                    <div>
+                                                        <strong><?php echo number_format($totalQuantity); ?> vé</strong>
+                                                    </div>
+                                                    <small class="text-muted">
+                                                        PT: <?php echo $product['quantity_economy']; ?> | 
+                                                        VIP: <?php echo $product['quantity_vip']; ?> | 
+                                                        BS: <?php echo $product['quantity_business']; ?>
+                                                    </small>
                                                 </td>
                                                 <td>
                                                     <strong>
-                                                        <?php echo number_format($product['price'] * $product['quantity'], 0, ',', '.'); ?> VNĐ
+                                                        <?php echo number_format($totalValue, 0, ',', '.'); ?> VNĐ
                                                     </strong>
                                                 </td>
                                                 <td>
-                                                    <?php if ($product['quantity'] > 10): ?>
-                                                        <span class="badge bg-success">Còn hàng</span>
-                                                    <?php elseif ($product['quantity'] > 0): ?>
+                                                    <?php if ($totalQuantity > 30): ?>
+                                                        <span class="badge bg-success">Còn nhiều</span>
+                                                    <?php elseif ($totalQuantity > 10): ?>
+                                                        <span class="badge bg-info">Còn hàng</span>
+                                                    <?php elseif ($totalQuantity > 0): ?>
                                                         <span class="badge bg-warning">Sắp hết</span>
                                                     <?php else: ?>
                                                         <span class="badge bg-danger">Hết hàng</span>
@@ -466,6 +571,140 @@ include '../includes/header.php';
                                                         <a href="../handle/employee_process.php?action=delete&id=<?php echo $employee['id']; ?>" 
                                                            class="btn btn-outline-danger"
                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này?')" 
+                                                           title="Xóa">
+                                                            <i class="bi bi-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Captains Tab -->
+                    <div class="tab-pane fade" id="captains" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">
+                                <i class="bi bi-airplane-engines me-2"></i>Danh sách cơ trưởng
+                            </h5>
+                            <a href="captain/index.php" class="btn btn-info">
+                                <i class="bi bi-plus-lg me-2"></i>Quản lý cơ trưởng
+                            </a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle data-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mã cơ trưởng</th>
+                                        <th>Tên cơ trưởng</th>
+                                        <th>Tuổi</th>
+                                        <th>Giới tính</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (empty($captains)): ?>
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4">
+                                                <i class="bi bi-inbox display-4 text-muted"></i>
+                                                <p class="text-muted mt-2">Chưa có cơ trưởng nào</p>
+                                            </td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <?php foreach ($captains as $index => $captain): ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><strong><?php echo htmlspecialchars($captain['captain_code']); ?></strong></td>
+                                                <td><?php echo htmlspecialchars($captain['captain_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($captain['age']); ?></td>
+                                                <td>
+                                                    <?php if (strtolower($captain['gender']) == 'nam' || strtolower($captain['gender']) == 'male'): ?>
+                                                        <span class="badge bg-primary"><i class="bi bi-gender-male"></i> Nam</span>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-danger"><i class="bi bi-gender-female"></i> Nữ</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="captain/edit_captain.php?id=<?php echo $captain['id']; ?>" 
+                                                           class="btn btn-outline-primary" title="Chỉnh sửa">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <a href="../handle/captain_process.php?action=delete&id=<?php echo $captain['id']; ?>" 
+                                                           class="btn btn-outline-danger"
+                                                           onclick="return confirm('Bạn có chắc chắn muốn xóa cơ trưởng này?')" 
+                                                           title="Xóa">
+                                                            <i class="bi bi-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Stewards Tab -->
+                    <div class="tab-pane fade" id="stewards" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">
+                                <i class="bi bi-person-badge me-2"></i>Danh sách tiếp viên
+                            </h5>
+                            <a href="steward/index.php" class="btn btn-danger">
+                                <i class="bi bi-plus-lg me-2"></i>Quản lý tiếp viên
+                            </a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle data-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mã tiếp viên</th>
+                                        <th>Tên tiếp viên</th>
+                                        <th>Tuổi</th>
+                                        <th>Giới tính</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (empty($stewards)): ?>
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4">
+                                                <i class="bi bi-inbox display-4 text-muted"></i>
+                                                <p class="text-muted mt-2">Chưa có tiếp viên nào</p>
+                                            </td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <?php foreach ($stewards as $index => $steward): ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><strong><?php echo htmlspecialchars($steward['steward_code']); ?></strong></td>
+                                                <td><?php echo htmlspecialchars($steward['steward_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($steward['age']); ?></td>
+                                                <td>
+                                                    <?php if (strtolower($steward['gender']) == 'nam' || strtolower($steward['gender']) == 'male'): ?>
+                                                        <span class="badge bg-primary"><i class="bi bi-gender-male"></i> Nam</span>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-danger"><i class="bi bi-gender-female"></i> Nữ</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="steward/edit_steward.php?id=<?php echo $steward['id']; ?>" 
+                                                           class="btn btn-outline-primary" title="Chỉnh sửa">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <a href="../handle/steward_process.php?action=delete&id=<?php echo $steward['id']; ?>" 
+                                                           class="btn btn-outline-danger"
+                                                           onclick="return confirm('Bạn có chắc chắn muốn xóa tiếp viên này?')" 
                                                            title="Xóa">
                                                             <i class="bi bi-trash"></i>
                                                         </a>

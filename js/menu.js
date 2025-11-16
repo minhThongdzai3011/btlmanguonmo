@@ -105,19 +105,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('productsChart');
     if (!ctx) return;
     
-    // Count products by status
-    const inStock = chartData.products.filter(p => p.quantity > 10).length;
-    const lowStock = chartData.products.filter(p => p.quantity > 0 && p.quantity <= 10).length;
-    const outOfStock = chartData.products.filter(p => p.quantity === 0).length;
+    // Count products by status - calculate total quantity for each product
+    const inStock = chartData.products.filter(p => {
+      const total = parseInt(p.quantity_economy || 0) + parseInt(p.quantity_vip || 0) + parseInt(p.quantity_business || 0);
+      return total > 30;
+    }).length;
+    
+    const availableStock = chartData.products.filter(p => {
+      const total = parseInt(p.quantity_economy || 0) + parseInt(p.quantity_vip || 0) + parseInt(p.quantity_business || 0);
+      return total > 10 && total <= 30;
+    }).length;
+    
+    const lowStock = chartData.products.filter(p => {
+      const total = parseInt(p.quantity_economy || 0) + parseInt(p.quantity_vip || 0) + parseInt(p.quantity_business || 0);
+      return total > 0 && total <= 10;
+    }).length;
+    
+    const outOfStock = chartData.products.filter(p => {
+      const total = parseInt(p.quantity_economy || 0) + parseInt(p.quantity_vip || 0) + parseInt(p.quantity_business || 0);
+      return total === 0;
+    }).length;
     
     new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ['Còn hàng', 'Sắp hết', 'Hết hàng'],
+        labels: ['Còn nhiều (>30)', 'Còn hàng (10-30)', 'Sắp hết (<10)', 'Hết hàng'],
         datasets: [{
-          data: [inStock, lowStock, outOfStock],
+          data: [inStock, availableStock, lowStock, outOfStock],
           backgroundColor: [
             '#198754',
+            '#0dcaf0',
             '#ffc107',
             '#dc3545'
           ],
