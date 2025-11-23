@@ -7,7 +7,7 @@ session_start();
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Đăng nhập - AirAgent Admin</title>
+  <title>Đăng nhập - SkyLine Admin</title>
 
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@ session_start();
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/login.css" />
+  <link rel="stylesheet" href="../../css/login.css" />
 </head>
 <body>
   <!-- Animated Background -->
@@ -54,7 +54,7 @@ session_start();
                 </div>
               </div>
               <h1 class="login-title">
-                <span class="title-gradient">AirAgent</span> Admin
+                <span class="title-gradient">SkyLine</span> Admin
               </h1>
               <p class="login-subtitle">
                 <i class="bi bi-shield-check me-2"></i>
@@ -63,7 +63,7 @@ session_start();
             </div>
 
             <!-- Login Form -->
-            <form method="POST" action="handle/login.php" class="login-form needs-validation" novalidate id="loginForm">
+            <form method="POST" action="../../handle/login.php" class="login-form needs-validation" novalidate id="loginForm">
               <!-- Error Alert (hidden by default) -->
               <div class="alert alert-danger animated-alert d-none" role="alert" id="errorAlert">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -161,6 +161,14 @@ session_start();
               </div>
             </form>
 
+            <!-- Link to Register -->
+            <div class="text-center mt-3">
+              <p class="text-muted">
+                Chưa có tài khoản? 
+                <a href="register.php" class="text-primary fw-bold text-decoration-none">Đăng ký ngay</a>
+              </p>
+            </div>
+
             <!-- Footer -->
             <div class="login-footer text-center mt-4">
               <div class="theme-toggle-wrapper">
@@ -177,7 +185,7 @@ session_start();
               
               <div class="copyright">
                 <i class="bi bi-c-circle me-1"></i>
-                <span id="currentYear"></span> AirAgent. Designed with 
+                <span id="currentYear"></span> SkyLine. Designed with 
                 <i class="bi bi-heart-fill text-danger"></i> by Dev Nhom 4
               </div>
             </div>

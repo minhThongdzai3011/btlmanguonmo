@@ -2,7 +2,7 @@
     <footer class="mt-5 text-center text-muted small">
       <div class="row">
         <div class="col-md-6 text-md-start mb-2 mb-md-0">
-          © <span id="currentYear"></span> AirAgent — Hệ thống quản lý đại lý bán vé
+          © <span id="currentYear"></span> SkyLine — Hệ thống quản lý đại lý bán vé
         </div>
         <div class="col-md-6 text-md-end">
           <span class="me-3">Phiên bản 1.0.0</span>
@@ -63,7 +63,7 @@
 
     function confirmLogout() {
       if (confirm('Bạn có chắc muốn đăng xuất?')) {
-        window.location.href = '<?= ($current_page === 'main') ? 'handle/logout.php' : '../handle/logout.php' ?>';
+        window.location.href = '/manguonmo/handle/logout.php';
       }
       return false;
     }

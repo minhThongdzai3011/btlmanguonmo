@@ -154,7 +154,7 @@
                     <li class="nav-item"><a class="nav-link" href="about.php">Về chúng tôi</a></li>
                     <li class="nav-item"><a class="nav-link active" href="#">Dịch vụ VIP</a></li>
                     <li class="nav-item ms-lg-3">
-                        <a class="btn btn-primary-custom text-white" href="../../login.php">
+                        <a class="btn btn-primary-custom text-white" href="../login/login.php">
                             Đăng nhập <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </li>
@@ -355,7 +355,7 @@
                     <h5 class="text-white mb-4">Liên Hệ VIP</h5>
                     <ul class="list-unstyled text-white opacity-75">
                         <li class="mb-3"><i class="fas fa-crown me-3 text-warning"></i> Hotline VIP: 0988 999 888</li>
-                        <li class="mb-3"><i class="fas fa-envelope me-3 text-warning"></i> vip@airagent.vn</li>
+                        <li class="mb-3"><i class="fas fa-envelope me-3 text-warning"></i> vip@SkyLine.vn</li>
                         <li class="mb-3"><i class="fas fa-map-marker-alt me-3 text-warning"></i> Phòng chờ VIP, Tầng 12A, 88 Láng Hạ</li>
                     </ul>
                 </div>

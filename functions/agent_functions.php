@@ -9,7 +9,8 @@ function getAllAgents() {
     $conn = getDbConnection();
 
     // Truy vấn lấy tất cả agents
-    $sql = "SELECT id, agent_code, agent_name, contactPerson, position, email, phoneNumber, fullAddress, city, currentState, commissionRate, sales, note FROM agents ORDER BY id";
+    $sql = "SELECT id, agent_code, agent_name, contactPerson, position, email, phoneNumber, 
+    fullAddress, city, currentState, commissionRate, sales, note FROM agents ORDER BY id";
     $result = mysqli_query($conn, $sql);
 
     $agents = [];
@@ -39,10 +40,12 @@ function getAllAgents() {
  * @param float $sales Doanh thu dự kiến
  * @return bool True nếu thành công, False nếu thất bại
  */
-function addAgent($agent_code, $agent_name, $contact_person, $position, $email, $phone_number, $full_address, $city, $current_state, $commission_rate, $sales) {
+function addAgent($agent_code, $agent_name, $contact_person, $position, $email, $phone_number, 
+$full_address, $city, $current_state, $commission_rate, $sales) {
     $conn = getDbConnection();
 
-    $sql = "INSERT INTO agents (agent_code, agent_name, contactPerson, position, email, phoneNumber, fullAddress, city, currentState, commissionRate, sales) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO agents (agent_code, agent_name, contactPerson, position, email, 
+    phoneNumber, fullAddress, city, currentState, commissionRate, sales) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     
     if ($stmt) {
@@ -66,7 +69,8 @@ function addAgent($agent_code, $agent_name, $contact_person, $position, $email, 
 function getAgentById($id) {
     $conn = getDbConnection();
 
-    $sql = "SELECT id, agent_code, agent_name, contactPerson, position, email, phoneNumber, fullAddress, city, currentState, commissionRate, sales, note FROM agents WHERE id = ? LIMIT 1";
+    $sql = "SELECT id, agent_code, agent_name, contactPerson, position, email, phoneNumber, fullAddress, 
+    city, currentState, commissionRate, sales, note FROM agents WHERE id = ? LIMIT 1";
     $stmt = mysqli_prepare($conn, $sql);
     
     if ($stmt) {
@@ -101,10 +105,10 @@ function getAgentById($id) {
  * @return bool True nếu thành công, False nếu thất bại
  */
 
-/**
- * Cập nhật thông tin agent
- */
-function updateAgent($id, $agent_code, $agent_name, $contact_person, $email, $phone_number, $current_state, $note, $sales, $commission_rate, $position) {
+
+
+function updateAgent($id, $agent_code, $agent_name, $contact_person, $email, $phone_number, 
+$current_state, $note, $sales, $commission_rate, $position) {
     $conn = getDbConnection();
 
     $sql = "UPDATE agents SET 
@@ -123,19 +127,18 @@ function updateAgent($id, $agent_code, $agent_name, $contact_person, $email, $ph
     $stmt = mysqli_prepare($conn, $sql);
     
     if ($stmt) {
-        // SỬA: 11 tham số = 10 's' + 1 'i' = "ssssssssssi"
         mysqli_stmt_bind_param($stmt, "ssssssssssi", 
-            $agent_code,      // s
-            $agent_name,      // s
-            $contact_person,  // s  
-            $email,           // s
-            $phone_number,    // s
-            $current_state,   // s
-            $note,            // s
-            $sales,           // s (để string để tránh lỗi float)
-            $commission_rate, // s (để string để tránh lỗi float)
-            $position,        // s
-            $id               // i (integer)
+            $agent_code,      
+            $agent_name,      
+            $contact_person,   
+            $email,           
+            $phone_number,    
+            $current_state,   
+            $note,            
+            $sales,           
+            $commission_rate, 
+            $position,        
+            $id               
         );
         
         $success = mysqli_stmt_execute($stmt);
@@ -146,7 +149,6 @@ function updateAgent($id, $agent_code, $agent_name, $contact_person, $email, $ph
         
         return $success && $affected_rows >= 0;
     }
-    
     mysqli_close($conn);
     return false;
 }

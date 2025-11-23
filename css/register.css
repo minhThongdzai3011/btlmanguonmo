@@ -1,0 +1,26 @@
+/* Import login.css styles */
+@import url('login.css');
+
+/* Override specific styles for register page if needed */
+.login-title {
+  font-size: 2rem;
+}
+
+.login-subtitle {
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-check-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.form-check-label a {
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.form-check-label a:hover {
+  text-decoration: underline;
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Về chúng tôi - Air Agent</title>
+    <title>Về chúng tôi - SkyLine</title>
     
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/723/723955.png" type="image/png">
     
@@ -225,7 +225,7 @@
         <div class="container">
             <a class="navbar-brand" href="../../index.php">
                 <i class="fas fa-plane me-2"></i>
-                Air Agent
+                SkyLine
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -236,7 +236,7 @@
                     <li class="nav-item"><a class="nav-link active" href="#">Về chúng tôi</a></li>
                     <li class="nav-item"><a class="nav-link" href="services.php">Dịch vụ VIP</a></li>
                     <li class="nav-item ms-lg-3">
-                        <a class="btn btn-primary-custom text-white" href="../../login.php">
+                        <a class="btn btn-primary-custom text-white" href="../login/login.php">
                             Đăng nhập <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </li>
@@ -441,7 +441,7 @@
                 </div>
             </div>
             <div class="border-top border-secondary py-4 text-center opacity-50">
-                <small>&copy; 2023 Air Agent Travel. All rights reserved.</small>
+                <small>&copy; 2023 SkyLine Travel. All rights reserved.</small>
             </div>
         </div>
     </footer>

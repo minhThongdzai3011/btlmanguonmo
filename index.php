@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Agent- Đại lý vé máy bay uy tín</title>
+    <title>SkyLine- Đại lý vé máy bay uy tín</title>
     <!-- Favicon -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/723/723955.png" type="image/png">
     <!-- Bootstrap 5 CSS -->
@@ -294,7 +294,7 @@
         <div class="container">
             <a class="navbar-brand" href="#">
                 <i class="fas fa-plane me-2"></i>
-                Air Agent
+                SkyLine
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -302,11 +302,12 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="views/info/guest.php">Vé</a></li>
                     <li class="nav-item"><a class="nav-link" href="views/info/about.php">Về chúng tôi</a></li>
                     <li class="nav-item"><a class="nav-link" href="views/info/services.php">Dịch vụ VIP</a></li>
                     <li class="nav-item"><a class="nav-link" href="#destinations">Điểm đến</a></li>
                     <li class="nav-item ms-lg-3">
-                        <a class="btn btn-primary-custom text-white" href="login.php">
+                        <a class="btn btn-primary-custom text-white" href="views/login/login.php">
                             Đăng nhập <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </li>
@@ -321,7 +322,7 @@
             <div class="row">
                 <div class="col-lg-7">
                     <div class="hero-content reveal-left active"> <!-- Mặc định active để hiện ngay khi load -->
-                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6 rounded-pill">#1 Đại lý vé máy bay uy tín</span>
+                        
                         <h1 class="hero-title">Nâng Tầm Trải Nghiệm Bay Của Bạn</h1>
                         <p class="lead mb-5 opacity-75">Chúng tôi không chỉ bán vé máy bay, chúng tôi mang đến những hành trình hoàn hảo và dịch vụ đẳng cấp 5 sao.</p>
                         <div class="d-flex gap-3">
@@ -346,9 +347,9 @@
                     </div>
                 </div>
                 <div class="col-lg-6 reveal-right">
-                    <h6 class="text-primary fw-bold text-uppercase ls-2">Về Air Agent</h6>
+                    <h6 class="text-primary fw-bold text-uppercase ls-2">Về SkyLine</h6>
                     <h2 class="display-5 fw-bold mb-4">Hơn 10 Năm Kết Nối Những Chuyến Bay</h2>
-                    <p class="lead text-muted">Air Agent tự hào là đối tác chiến lược của hơn 500 hãng hàng không trong nước và quốc tế. Chúng tôi cam kết mang lại giải pháp di chuyển tối ưu nhất cho mọi khách hàng.</p>
+                    <p class="lead text-muted">SkyLine tự hào là đối tác chiến lược của hơn 500 hãng hàng không trong nước và quốc tế. Chúng tôi cam kết mang lại giải pháp di chuyển tối ưu nhất cho mọi khách hàng.</p>
                     <p class="text-muted mb-5">Với đội ngũ chuyên gia giàu kinh nghiệm, chúng tôi xử lý mọi yêu cầu phức tạp từ vé đoàn, vé thương gia, đến các trường hợp khẩn cấp một cách nhanh chóng và chuyên nghiệp nhất.</p>
                     
                     <div class="row g-4">

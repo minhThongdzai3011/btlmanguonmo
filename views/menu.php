@@ -14,12 +14,18 @@ require_once '../functions/agent_functions.php';
 require_once '../functions/employee_function.php';
 require_once '../functions/captain_function.php';
 require_once '../functions/steward_funtion.php';
+require_once '../functions/flight_functions.php';
+require_once '../functions/airline_function.php';
+require_once '../functions/user_function.php';
 
 $products = getAllProducts();
 $agents = getAllAgents();
 $employees = getAllEmployees();
 $captains = getAllCaptains();
 $stewards = getAllStewards();
+$flights = getAllFlights();
+$airlines = getAllAirlines();
+$users = getAllUsers();
 
 // Tính toán thống kê
 $totalProducts = count($products);
@@ -193,6 +199,24 @@ include '../includes/header.php';
     </div>
 </div>
 
+<!-- User Stats Row -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-lg-6 col-md-6">
+        <div class="stats-card stats-card-info">
+            <div class="stats-icon">
+                <i class="bi bi-person-circle"></i>
+            </div>
+            <div class="stats-content">
+                <h3 class="stats-number" data-target="<?php echo count($users); ?>">0</h3>
+                <p class="stats-label">Người dùng</p>
+                <div class="stats-footer">
+                    <span class="stats-text">Tài khoản user hệ thống</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Charts Section -->
 <div class="row g-4 mb-4">
     <!-- Revenue Chart -->
@@ -289,6 +313,18 @@ include '../includes/header.php';
                         <button class="nav-link" id="stewards-tab" data-bs-toggle="tab" 
                                 data-bs-target="#stewards" type="button" role="tab">
                             <i class="bi bi-person-badge me-2"></i>Tiếp viên
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="flights-tab" data-bs-toggle="tab" 
+                                data-bs-target="#flights" type="button" role="tab">
+                            <i class="bi bi-airplane me-2"></i>Chuyến bay
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="airlines-tab" data-bs-toggle="tab" 
+                                data-bs-target="#airlines" type="button" role="tab">
+                            <i class="bi bi-airplane-engines-fill me-2"></i>Hãng hàng không
                         </button>
                     </li>
                 </ul>
@@ -419,7 +455,7 @@ include '../includes/header.php';
                             <h5 class="mb-0">
                                 <i class="bi bi-building me-2"></i>Danh sách đại lý
                             </h5>
-                            <a href="main.php" class="btn btn-success">
+                            <a href="../views/agent/main.php" class="btn btn-success">
                                 <i class="bi bi-plus-lg me-2"></i>Quản lý đại lý
                             </a>
                         </div>
@@ -705,6 +741,138 @@ include '../includes/header.php';
                                                         <a href="../handle/steward_process.php?action=delete&id=<?php echo $steward['id']; ?>" 
                                                            class="btn btn-outline-danger"
                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa tiếp viên này?')" 
+                                                           title="Xóa">
+                                                            <i class="bi bi-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Flights Tab -->
+                    <div class="tab-pane fade" id="flights" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">
+                                <i class="bi bi-airplane me-2"></i>Danh sách chuyến bay
+                            </h5>
+                            <a href="flight/index.php" class="btn btn-primary">
+                                <i class="bi bi-plus-lg me-2"></i>Quản lý chuyến bay
+                            </a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle data-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mã chuyến bay</th>
+                                        <th>Tên chuyến bay</th>
+                                        <th>Hãng HK</th>
+                                        <th>Cơ trưởng</th>
+                                        <th>Tiếp viên</th>
+                                        <th>Điểm đi</th>
+                                        <th>Điểm đến</th>
+                                        <th>Thời gian</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (empty($flights)): ?>
+                                        <tr>
+                                            <td colspan="10" class="text-center py-4">
+                                                <i class="bi bi-inbox display-4 text-muted"></i>
+                                                <p class="text-muted mt-2">Chưa có chuyến bay nào</p>
+                                            </td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <?php foreach ($flights as $index => $flight): ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><strong><?php echo htmlspecialchars($flight['flight_code']); ?></strong></td>
+                                                <td><?php echo htmlspecialchars($flight['flight_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($flight['airline_code'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($flight['captain_code'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($flight['steward_code'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($flight['origin']); ?></td>
+                                                <td><?php echo htmlspecialchars($flight['destination']); ?></td>
+                                                <td>
+                                                    <small class="text-muted">
+                                                        <?php echo date('d/m/Y H:i', strtotime($flight['flight_time'])); ?>
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="flight/edit_flight.php?id=<?php echo $flight['id']; ?>" 
+                                                           class="btn btn-outline-primary" title="Chỉnh sửa">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <a href="../handle/flight_process.php?action=delete&id=<?php echo $flight['id']; ?>" 
+                                                           class="btn btn-outline-danger"
+                                                           onclick="return confirm('Bạn có chắc chắn muốn xóa chuyến bay này?')" 
+                                                           title="Xóa">
+                                                            <i class="bi bi-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Airlines Tab -->
+                    <div class="tab-pane fade" id="airlines" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">
+                                <i class="bi bi-airplane-engines-fill me-2"></i>Danh sách hãng hàng không
+                            </h5>
+                            <a href="airline/index.php" class="btn btn-primary">
+                                <i class="bi bi-plus-lg me-2"></i>Quản lý hãng bay
+                            </a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle data-table">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">#</th>
+                                        <th width="20%">Mã hãng</th>
+                                        <th width="50%">Tên hãng hàng không</th>
+                                        <th width="20%" class="text-center">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (empty($airlines)): ?>
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4">
+                                                <i class="bi bi-inbox display-4 text-muted"></i>
+                                                <p class="text-muted mt-2">Chưa có hãng hàng không nào</p>
+                                            </td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <?php foreach ($airlines as $index => $airline): ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td>
+                                                    <span class="badge bg-primary fs-6"><?php echo htmlspecialchars($airline['airline_code']); ?></span>
+                                                </td>
+                                                <td><strong><?php echo htmlspecialchars($airline['airline_name']); ?></strong></td>
+                                                <td class="text-center">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="airline/edit_airline.php?id=<?php echo $airline['id']; ?>" 
+                                                           class="btn btn-outline-primary" title="Chỉnh sửa">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <a href="../handle/airline_process.php?action=delete&id=<?php echo $airline['id']; ?>" 
+                                                           class="btn btn-outline-danger"
+                                                           onclick="return confirm('Bạn có chắc chắn muốn xóa hãng hàng không này?')" 
                                                            title="Xóa">
                                                             <i class="bi bi-trash"></i>
                                                         </a>

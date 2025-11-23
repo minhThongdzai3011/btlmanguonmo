@@ -22,11 +22,10 @@ function checkLogin($redirectPath = '../index.php') {
 
 /**
  * Hàm đăng xuất user
- * Xóa tất cả session và chuyển hướng về trang login
- * 
- * @param string $redirectPath Đường dẫn để chuyển hướng sau khi logout (mặc định: '../index.php')
+ * Xóa tất cả session và chuyển hướng về trang chủ
+ * Sử dụng đường dẫn tuyệt đối để tránh lỗi khi gọi từ các cấp thư mục khác nhau
  */
-function logout($redirectPath = '../index.php') {
+function logout() {
     // Khởi tạo session nếu chưa có
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -40,8 +39,18 @@ function logout($redirectPath = '../index.php') {
     session_start();
     $_SESSION['success'] = 'Đăng xuất thành công!';
     
+    // Tính đường dẫn tuyệt đối về trang chủ
+    // Lấy root directory của project
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'];
+    
+    // Lấy đường dẫn gốc của project (giả sử project nằm trong /manguonmo/)
+    $projectRoot = '/manguonmo/index.php';
+    
+    $redirectUrl = $protocol . '://' . $host . $projectRoot;
+    
     // Chuyển hướng về trang đăng nhập
-    header('Location: ' . $redirectPath);
+    header('Location: ' . $redirectUrl);
     exit();
 }
 

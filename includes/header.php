@@ -1,5 +1,5 @@
 <?php
-$page_title = $page_title ?? 'AirAgent Admin';
+$page_title = $page_title ?? 'SkyLine Admin';
 $page_description = $page_description ?? 'Hệ thống quản lý các đại lý bán vé';
 $css_files = $css_files ?? ['../css/main.css'];
 $current_page = $current_page ?? '';
@@ -39,7 +39,7 @@ $displayName = ucfirst($username);
         <div>
           <h1 class="h5 mb-0">
             <a href="<?= ($current_page === 'menu') ? '#' : '../menu.php' ?>" class="text-decoration-none text-inherit">
-              AirAgent Admin
+              SkyLine Admin
             </a>
           </h1>
           <div class="text-muted small"><?= htmlspecialchars($page_description) ?></div>
@@ -90,7 +90,7 @@ $displayName = ucfirst($username);
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
-              <a class="dropdown-item text-danger" href="../handle/logout.php">
+              <a class="dropdown-item text-danger" href="/manguonmo/handle/logout.php">
                 
                 <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
               </a>

@@ -493,6 +493,124 @@ document.addEventListener('DOMContentLoaded', function() {
   
   
   // ====================================
+  // Pagination for Tables
+  // ====================================
+  function createPagination(tabId) {
+    const itemsPerPage = 3;
+    let currentPage = 1;
+    
+    const tab = document.getElementById(tabId);
+    if (!tab) return;
+    
+    const table = tab.querySelector('.data-table tbody');
+    if (!table) return;
+    
+    const rows = Array.from(table.querySelectorAll('tr'));
+    const totalPages = Math.ceil(rows.length / itemsPerPage);
+    
+    // Tạo pagination HTML
+    const paginationContainer = document.createElement('div');
+    paginationContainer.className = 'mt-3';
+    paginationContainer.innerHTML = `
+      <nav aria-label="Table pagination">
+        <ul class="pagination pagination-sm justify-content-center" id="pagination-${tabId}">
+        </ul>
+      </nav>
+    `;
+    
+    const tableWrapper = tab.querySelector('.table-responsive');
+    if (tableWrapper && !document.getElementById(`pagination-${tabId}`)) {
+      tableWrapper.after(paginationContainer);
+    }
+    
+    function displayPage(page) {
+      currentPage = page;
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      
+      rows.forEach((row, index) => {
+        if (index >= start && index < end) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+      
+      updatePagination();
+    }
+    
+    function updatePagination() {
+      const pagination = document.getElementById(`pagination-${tabId}`);
+      if (!pagination) return;
+      
+      let html = '';
+      
+      // Previous button
+      html += `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+          <a class="page-link" href="#" data-page="${currentPage - 1}">‹</a>
+        </li>
+      `;
+      
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+          html += `
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+              <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>
+          `;
+        } else if (i === currentPage - 2 || i === currentPage + 2) {
+          html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+      }
+      
+      // Next button
+      html += `
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+          <a class="page-link" href="#" data-page="${currentPage + 1}">›</a>
+        </li>
+      `;
+      
+      pagination.innerHTML = html;
+      
+      // Add click event listeners
+      pagination.querySelectorAll('a.page-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const page = parseInt(this.dataset.page);
+          if (page >= 1 && page <= totalPages) {
+            displayPage(page);
+          }
+        });
+      });
+    }
+    
+    // Initialize
+    if (rows.length > itemsPerPage) {
+      displayPage(1);
+    }
+    
+    // Re-initialize when tab is shown
+    const tabButton = document.querySelector(`[data-bs-target="#${tabId}"]`);
+    if (tabButton) {
+      tabButton.addEventListener('shown.bs.tab', function() {
+        displayPage(1);
+      });
+    }
+  }
+  
+  // Add pagination to all tabs
+  createPagination('products');
+  createPagination('agents');
+  createPagination('employees');
+  createPagination('captains');
+  createPagination('stewards');
+  createPagination('flights');
+  createPagination('airlines');
+  
+  
+  // ====================================
   // Table Sorting
   // ====================================
   function makeTableSortable(tableId) {

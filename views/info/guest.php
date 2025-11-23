@@ -1,6 +1,10 @@
 <?php
-    require_once '../handle/product_process.php';
+    session_start();
+    require_once '../../handle/product_process.php';
     $products = handleGetAllProducts();
+    
+    // Lấy username từ session
+    $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Khách';
 ?>
 
 <!DOCTYPE html>
@@ -206,13 +210,16 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="fas fa-plane me-2 text-warning"></i> SkyLine Travel</a>
+            <a class="navbar-brand" href="#"><i class="fas fa-plane me-2 text-warning"></i> SkyLine Travel</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Săn vé tốt</a></li>
-                    <li class="nav-item ms-lg-3"><a class="btn btn-primary rounded-pill px-4 fw-bold" href="#contact">Hotline: 1900 1234</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../../index.php">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Vé</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">Về chúng tôi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Dịch vụ VIP</a></li>
+                    <li class="nav-item ms-lg-3"><a class="btn btn-primary rounded-pill px-4 fw-bold">Xin chào, <?= htmlspecialchars($username) ?>!</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../login/login.php">Đăng nhập</a></li>
                 </ul>
             </div>
         </div>
@@ -240,7 +247,7 @@
                     <div class="flight-card">
                         <!-- Ảnh và Mã vé -->
                         <div class="card-img-top-wrapper">
-                            <img src="../img/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
+                            <img src="../../img/<?php echo htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
                             <div class="flight-code-badge">
                                 <i class="fas fa-barcode me-1"></i> <?= htmlspecialchars($product['product_code']) ?>
                             </div>
@@ -307,9 +314,9 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-book">
+                            <a href="../login/login.php" class="btn btn-book">
                                 Đặt Vé Ngay <i class="fas fa-arrow-right ms-2 opacity-50"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

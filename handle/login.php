@@ -14,7 +14,7 @@ function handleLogin(): never {
 
     if (empty($username) || empty($password)) {
         $_SESSION['error'] = 'Vui lòng nhập đầy đủ username và password!';
-        header('Location: ../login.php');
+        header('Location: ../views/login/login.php');
         exit();
     }
 
@@ -29,14 +29,14 @@ function handleLogin(): never {
         header('Location: ../views/menu.php');
         } 
         else if ($user['role'] === 'user') {
-            header('Location: ../views/user.php');
+            header('Location: ../views/user/user.php');
         }
         exit();
     }
 
     $_SESSION['error'] = 'Tên đăng nhập hoặc mật khẩu không đúng!';
     mysqli_close($conn);
-    header('Location: ../login.php');
+    header('Location: ../views/login/login.php');
     exit();
 }
 ?>

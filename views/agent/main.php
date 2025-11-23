@@ -2,13 +2,13 @@
 $page_title = 'Dashboard - AirAgent Admin';
 $page_description = 'Hệ thống quản lý các đại lý bán vé';
 $current_page = 'main';
-$css_files = ['../css/main.css'];
-$js_files = ['../js/main.js'];
+$css_files = ['../../css/main.css'];
+$js_files = ['../../js/main.js'];
 
 $username = 'Admin'; 
 $role = 'Administrator';
 
-require_once '../functions/agent_functions.php';
+require_once '../../functions/agent_functions.php';
 
 // Lấy danh sách agents từ database
 $agents = getAllAgents();
@@ -30,7 +30,7 @@ foreach ($agents as $agent) {
 }
 
 // Include header
-include '../includes/header.php';
+include '../../includes/header.php';
 ?>
     <div class="row g-3 mb-4">
       <div class="col-sm-6 col-md-4">
